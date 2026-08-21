@@ -35,9 +35,17 @@ public class Particle {
     }
 
     public void moveInto(Particle other) {
+        other.flavor = flavor;
+        other.lifespan = lifespan;
+        flavor = ParticleFlavor.EMPTY;
+        lifespan = -1;
     }
 
     public void fall(Map<Direction, Particle> neighbors) {
+        var down = neighbors.get(Direction.DOWN);
+        if (down.flavor == ParticleFlavor.EMPTY) {
+            moveInto(down);
+        }
     }
 
     public void flow(Map<Direction, Particle> neighbors) {
@@ -50,5 +58,11 @@ public class Particle {
     }
 
     public void action(Map<Direction, Particle> neighbors) {
+        if (flavor == ParticleFlavor.EMPTY) {
+            return;
+        }
+        if (flavor != ParticleFlavor.BARRIER) {
+            fall(neighbors);
+        }
     }
 }
