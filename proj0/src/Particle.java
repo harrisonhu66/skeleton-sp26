@@ -49,6 +49,20 @@ public class Particle {
     }
 
     public void flow(Map<Direction, Particle> neighbors) {
+        int i = StdRandom.uniformInt(3);
+        if (i == 0) {
+
+        } else if (i == 1) {
+            var left = neighbors.get(Direction.LEFT);
+            if (left.flavor == ParticleFlavor.EMPTY) {
+                moveInto(left);
+            }
+        } else {
+            var right = neighbors.get(Direction.RIGHT);
+            if (right.flavor == ParticleFlavor.EMPTY) {
+                moveInto(right);
+            }
+        }
     }
 
     public void grow(Map<Direction, Particle> neighbors) {
@@ -63,6 +77,9 @@ public class Particle {
         }
         if (flavor != ParticleFlavor.BARRIER) {
             fall(neighbors);
+        }
+        if (flavor == ParticleFlavor.WATER) {
+            flow(neighbors);
         }
     }
 }
