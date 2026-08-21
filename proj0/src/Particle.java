@@ -21,17 +21,39 @@ public class Particle {
     }
 
     public Color color() {
-        var dispatch = Map.of(
-            ParticleFlavor.EMPTY, Color.BLACK,
-            ParticleFlavor.SAND, Color.YELLOW,
-            ParticleFlavor.BARRIER, Color.GRAY,
-            ParticleFlavor.WATER, Color.BLUE,
-            ParticleFlavor.FOUNTAIN, Color.CYAN,
-            ParticleFlavor.PLANT, new Color(0, 255, 0),
-            ParticleFlavor.FIRE, new Color(255, 0, 0),
-            ParticleFlavor.FLOWER, new Color(255, 141, 161)
-        );
-        return dispatch.getOrDefault(flavor, Color.GRAY);
+        if (flavor == ParticleFlavor.EMPTY) {
+            return Color.BLACK;
+        }
+        if (flavor == ParticleFlavor.SAND) {
+            return Color.YELLOW;
+        }
+        if (flavor == ParticleFlavor.BARRIER) {
+            return Color.GRAY;
+        }
+        if (flavor == ParticleFlavor.WATER) {
+            return Color.BLUE;
+        }
+        if (flavor == ParticleFlavor.FOUNTAIN) {
+            return Color.CYAN;
+        }
+        if (flavor == ParticleFlavor.FLOWER) {
+            double ratio = (double) Math.max(0, Math.min(lifespan, FLOWER_LIFESPAN)) / FLOWER_LIFESPAN;
+            int r = 120 + (int) Math.round((255 - 120) * ratio);
+            int g = 70 + (int) Math.round((141 - 70) * ratio);
+            int b = 80 + (int) Math.round((161 - 80) * ratio);
+            return new Color(r, g, b);
+        }
+        if (flavor == ParticleFlavor.PLANT) {
+            double ratio = (double) Math.max(0, Math.min(lifespan, PLANT_LIFESPAN)) / PLANT_LIFESPAN;
+            int g = 120 + (int) Math.round((255 - 120) * ratio);
+            return new Color(0, g, 0);
+        }
+        if (flavor == ParticleFlavor.FIRE) {
+            double ratio = (double) Math.max(0, Math.min(lifespan, FIRE_LIFESPAN)) / FIRE_LIFESPAN;
+            int r = (int) Math.round(255 * ratio);
+            return new Color(r, 0, 0);
+        }
+        return Color.GRAY;
     }
 
     public void moveInto(Particle other) {
