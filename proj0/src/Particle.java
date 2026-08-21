@@ -21,10 +21,17 @@ public class Particle {
     }
 
     public Color color() {
-        if (flavor == ParticleFlavor.EMPTY) {
-            return Color.BLACK;
-        }
-        return Color.GRAY;
+        var dispatch = Map.of(
+            ParticleFlavor.EMPTY, Color.BLACK,
+            ParticleFlavor.SAND, Color.YELLOW,
+            ParticleFlavor.BARRIER, Color.GRAY,
+            ParticleFlavor.WATER, Color.BLUE,
+            ParticleFlavor.FOUNTAIN, Color.CYAN,
+            ParticleFlavor.PLANT, new Color(0, 255, 0),
+            ParticleFlavor.FIRE, new Color(255, 0, 0),
+            ParticleFlavor.FLOWER, new Color(255, 141, 161)
+        );
+        return dispatch.getOrDefault(flavor, Color.GRAY);
     }
 
     public void moveInto(Particle other) {
