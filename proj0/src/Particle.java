@@ -111,6 +111,15 @@ public class Particle {
     }
 
     public void burn(Map<Direction, Particle> neighbors) {
+        for (var neighbor : neighbors.values()) {
+            if (neighbor.flavor == ParticleFlavor.PLANT || neighbor.flavor == ParticleFlavor.FLOWER) {
+                int chance = StdRandom.uniformInt(10);
+                if (chance < 4) {
+                    neighbor.flavor = ParticleFlavor.FIRE;
+                    neighbor.lifespan = LIFESPANS.get(neighbor.flavor);
+                }
+            }
+        }
     }
 
     public void action(Map<Direction, Particle> neighbors) {
@@ -125,6 +134,9 @@ public class Particle {
         }
         if (flavor == ParticleFlavor.PLANT || flavor == ParticleFlavor.FLOWER) {
             grow(neighbors);
+        }
+        if (flavor == ParticleFlavor.FIRE) {
+            burn(neighbors);
         }
     }
 
